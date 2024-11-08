@@ -1,4 +1,4 @@
-package org.dask.demo_toxiproxy_integration_tests;
+package org.example.demo.toxiproxy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -9,7 +9,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
-public class TestDemoToxiproxyIntegrationTestsApplication {
+public class TestDemoToxiproxyApplication {
 
 	@Bean
 	@ServiceConnection
@@ -24,7 +24,7 @@ public class TestDemoToxiproxyIntegrationTestsApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.from(DemoToxiproxyIntegrationTestsApplication::main).with(TestDemoToxiproxyIntegrationTestsApplication.class).run(args);
+		SpringApplication.from(DemoToxiproxyApplication::main).with(TestDemoToxiproxyApplication.class).run(args);
 	}
 
 }

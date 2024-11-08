@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: demo-toxiproxy-integration-tests
+
+kafka:
+  orders:
+    topic:
+      name: ${ORDERS_TOPIC_NAME:orders}
