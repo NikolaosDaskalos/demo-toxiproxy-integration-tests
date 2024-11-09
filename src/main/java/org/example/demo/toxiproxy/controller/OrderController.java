@@ -1,14 +1,15 @@
 package org.example.demo.toxiproxy.controller;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.example.demo.toxiproxy.dto.BasicResponseDto;
-import org.example.demo.toxiproxy.dto.OrderDto;
+import org.example.demo.toxiproxy.dto.CreateOrderDto;
 import org.example.demo.toxiproxy.dto.OrdersDto;
+import org.example.demo.toxiproxy.dto.ResponseOrderDto;
 import org.example.demo.toxiproxy.dto.UpdateOrderDto;
-import org.example.demo.toxiproxy.model.Order;
 import org.example.demo.toxiproxy.service.OrderService;
 import org.example.demo.toxiproxy.service.exception.BadRequestException;
 import org.example.demo.toxiproxy.service.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,31 +23,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    private OrderService orderService;
+    private final OrderService orderService;
 
     @GetMapping
     public ResponseEntity<OrdersDto> getAllOrders() {
-        return orderService.getAllOrders();
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<Order> getOrder(@PathVariable Long orderId) throws NotFoundException {
-        Order order = orderService.getOrder(orderId);
-        return ResponseEntity.ok(order);
+    public ResponseEntity<CreateOrderDto> getOrder(@PathVariable Long orderId) throws NotFoundException {
+        return ResponseEntity.ok(orderService.getOrder(orderId));
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = orderService.createOrder(order);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrder);
+    public ResponseEntity<ResponseOrderDto> createOrder(@RequestBody @Valid CreateOrderDto orderDto) throws BadRequestException {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.createOrder(orderDto));
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<OrderDto> updateOrder(
+    public ResponseEntity<CreateOrderDto> updateOrder(
             @PathVariable Long orderId,
-            @RequestBody UpdateOrderDto updateOrderDto) throws NotFoundException {
+            @RequestBody @Valid UpdateOrderDto updateOrderDto) throws NotFoundException {
         return new ResponseEntity<>(orderService.updateOrder(orderId, updateOrderDto), HttpStatus.OK);
     }
 

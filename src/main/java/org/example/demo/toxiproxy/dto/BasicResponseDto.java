@@ -1,5 +1,14 @@
 package org.example.demo.toxiproxy.dto;
 
-public record BasicResponseDto(String message) {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class BasicResponseDto {
+    private String message;
 }

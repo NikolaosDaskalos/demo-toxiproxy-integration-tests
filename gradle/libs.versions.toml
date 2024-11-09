@@ -1,0 +1,149 @@
+[versions]
+bootVersion = '3.3.3'
+spockVersion = '2.4-M4-groovy-4.0'
+groovyVersion = '4.0.22'
+fakerVersion = '1.0.2'
+openApiVersion = '2.6.0'
+kafkaVersion = '3.2.3'
+logstashEncoderVersion = '8.0'
+janinoVersion = '3.1.12'
+jacksonJsr310Version = '2.17.2'
+springSecurityVersion = '6.3.3'
+springIntegrationVersion = '6.3.3'
+springCloudContractVersion = '4.1.4'
+springCloudVersion = '2023.0.3'
+allureVersion = '2.29.0'
+swaggerVersion = '2.2.23'
+resilience4jVersion = '2.2.0'
+#newcrossJsonSchemaVersion = '1.0.5'
+testContainersVersion = '1.20.1'
+dockerComposeVersion = '0.17.8'
+
+pitestJunitPluginVersion = '1.0.0'
+jacocoVersion = '0.8.12'
+codenarcVersion = '3.1.0'
+checkStyleVersion = '10.17.0'
+flywayVersion = '10.17.3'
+
+[libraries]
+### springboot ###
+springboot_actuator = { module = "org.springframework.boot:spring-boot-starter-actuator", version.ref = "bootVersion" }
+springboot_security = { module = "org.springframework.boot:spring-boot-starter-security", version.ref = "bootVersion" }
+springboot_jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa", version.ref = "bootVersion" }
+springboot_test_starter = { module = "org.springframework.boot:spring-boot-starter-test", version.ref = "bootVersion" }
+springboot_validation = { module = "org.springframework.boot:spring-boot-starter-validation", version.ref = "bootVersion" }
+springboot_web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "bootVersion" }
+springboot_webflux = { module = "org.springframework.boot:spring-boot-starter-webflux", version.ref = "bootVersion" }
+springboot_logging = { module = "org.springframework.boot:spring-boot-starter-logging", version.ref = "bootVersion" }
+springboot_cache = { module = "org.springframework.boot:spring-boot-starter-cache", version.ref = "bootVersion" }
+springboot_oauth2 = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server", version.ref = "bootVersion" }
+springboot_devtools = { module = "org.springframework.boot:spring-boot-devtools", version.ref = "bootVersion" }
+springboot_integration = { module = "org.springframework.boot:spring-boot-starter-integration", version.ref = "bootVersion" }
+springboot_jdbc = { module = "org.springframework.boot:spring-boot-starter-jdbc", version.ref = "bootVersion" }
+springboot_aop = { module = "org.springframework.boot:spring-boot-starter-aop", version.ref = "bootVersion" }
+springboot_mail = { module = "org.springframework.boot:spring-boot-starter-mail", version.ref = "bootVersion" }
+springboot_redis = { module = "org.springframework.boot:spring-boot-starter-data-redis", version.ref = "bootVersion" }
+
+### spring integration ###
+spring_integration_jdbc = { module = "org.springframework.integration:spring-integration-jdbc", version.ref = "springIntegrationVersion" }
+spring_integration_redis = { module = "org.springframework.integration:spring-integration-redis", version.ref = "springIntegrationVersion" }
+
+### spring security ###
+spring_security_core = { module = "org.springframework.security:spring-security-core", version.ref = "springSecurityVersion" }
+spring_security_test = { module = "org.springframework.security:spring-security-test", version.ref = "springSecurityVersion" }
+
+### spring cloud ###
+spring_cloud_contract_wiremock = { module = "org.springframework.cloud:spring-cloud-contract-wiremock", version.ref = "springCloudContractVersion" }
+spring_cloud_dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "springCloudVersion" }
+
+### spring ##
+spring_kafka_core = { module = "org.springframework.kafka:spring-kafka", version.ref = "kafkaVersion" }
+spring_kafka_test = { module = "org.springframework.kafka:spring-kafka-test", version.ref = "kafkaVersion" }
+
+### swagger ###
+swagger_jakarta = { module = "io.swagger.core.v3:swagger-annotations-jakarta", version.ref = "swaggerVersion" }
+swagger_annotations = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swaggerVersion" }
+openapi = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "openApiVersion" }
+
+### jackson ###
+datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jacksonJsr310Version" }
+
+### logging ###
+logstash = { module = "net.logstash.logback:logstash-logback-encoder", version.ref = "logstashEncoderVersion" }
+janino = { module = "org.codehaus.janino:janino", version.ref = "janinoVersion" }
+logback_appender = { module = "com.github.loki4j:loki-logback-appender", version = "1.5.2" }
+
+### monitoring and tracing ###
+# Let SpringBoot BOM manage the versions
+prometheus = { module = "io.micrometer:micrometer-registry-prometheus" }
+tracing_otel = { module = "io.micrometer:micrometer-tracing-bridge-otel" }
+exporter_otpl = { module = "io.opentelemetry:opentelemetry-exporter-otlp" }
+
+### flyway ###
+flyway_core = { module = "org.flywaydb:flyway-core", version.ref = "flywayVersion" }
+flyway_postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flywayVersion" }
+
+### database ###
+postgresql = { module = "org.postgresql:postgresql", version = "42.7.4" }
+
+### misc ###
+lombok = { module = "org.projectlombok:lombok", version = "1.18.34" }
+faker = { module = "com.github.javafaker:javafaker", version.ref = "fakerVersion" }
+pact_consumer = { module = "au.com.dius.pact.consumer:groovy", version = "4.6.14" }
+lettuce = { module = "io.lettuce:lettuce-core", version = "6.4.0.RELEASE" }
+jdempotent_core = { module = "com.trendyol:Jdempotent-core", version = "1.1.0" }
+resilience4j = { module = "io.github.resilience4j:resilience4j-spring-boot3", version.ref = "resilience4jVersion" }
+groovy_json = { module = "org.apache.groovy:groovy-json", version.ref = "groovyVersion" }
+
+### spock ###
+spock_core = { module = "org.spockframework:spock-core", version.ref = "spockVersion" }
+spock_spring = { module = "org.spockframework:spock-spring", version.ref = "spockVersion" }
+
+### allure ###
+allure_spock2 = { module = "io.qameta.allure:allure-spock2", version.ref = "allureVersion" }
+allure_java_commons = { module = "io.qameta.allure:allure-java-commons", version.ref = "allureVersion" }
+
+### testcontainers ###
+testcontainers_core = { module = "org.testcontainers:testcontainers", version.ref = "testContainersVersion" }
+testcontainers_bom = { module = "org.testcontainers:testcontainers-bom", version.ref = "testContainersVersion" }
+testcontainers_keycloak = { module = "com.github.dasniko:testcontainers-keycloak", version = "3.4.0" }
+
+### newcross ###
+#nx_jsonschema_generator = { module = "tech.newcross.gradle:nc-json-schema-generator-gradle-plugin", version.ref = "newcrossJsonSchemaVersion" }
+
+### docker ###
+docker_plugin = { module = "com.bmuschko:gradle-docker-plugin", version = "9.4.0" }
+dockercompose_plugin = { module = "com.avast.gradle:gradle-docker-compose-plugin", version.ref = "dockerComposeVersion" }
+
+### redis ###
+jedis = { module = "redis.clients:jedis", version = "5.1.5" }
+
+### constraint ###
+nimbus_jose_jwt = { module = "com.nimbusds:nimbus-jose-jwt", version = "9.40" }
+xmlunit_core = { module = "org.xmlunit:xmlunit-core", version = "2.10.0" }
+log4j = { module = "org.apache.logging.log4j:log4", version = "2.23.1" }
+
+[plugins]
+springBoot = { id = "org.springframework.boot", version.ref = "bootVersion" }
+openApiPlugin = { id = "org.springdoc.openapi-gradle-plugin", version = "1.9.0" }
+#newcrossJsonSchema = { id = "tech.newcross.json.schema", version.ref = "newcrossJsonSchemaVersion" }
+springDepManagement = { id = "io.spring.dependency-management", version = "1.1.6" }
+pitest = { id = "info.solidsoft.pitest", version = "1.15.0" }
+consoleReporter = { id = "com.github.ksoichiro.console.reporter", version = "0.6.3" }
+dockerCompose = { id = "com.avast.gradle.docker-compose", version.ref = "dockerComposeVersion" }
+dependencycheck = { id = "org.owasp.dependencycheck", version = "10.0.4" }
+sonarqube = { id = "org.sonarqube", version = "5.1.0.4882" }
+versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
+
+#[bundles]
+# Used to group dependencies in one group: e.g.: testImplementation libs.bundles.commonTestLibraries
+#commonTestLibraries = [
+#    "spock_core", "spock_spring",
+#    "springboot_test_starter",
+#    "faker",
+#]
+#
+#funcTestLibraries = [
+#    "allure_spock2", "allure_java_commons",
+#    "testcontainers_bom", "testcontainers_core", "testcontainers_keycloak"
+#]
