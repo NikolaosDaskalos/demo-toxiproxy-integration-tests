@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: demouser
+      POSTGRES_PASSWORD: demoPass
+      POSTGRES_DB: demo_db
+    ports:
+      - "5432:5432"
+    networks:
+      - kafka-net
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    hostname: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    networks:
+      - kafka-net
+    environment:
+      KAFKA_KRAFT_MODE: "true"  # This enables KRaft mode in Kafka.
+      KAFKA_PROCESS_ROLES: controller,broker  # Kafka acts as both broker and controller.
+      KAFKA_NODE_ID: 1  # A unique ID for this Kafka instance.
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@localhost:9093"  # Defines the controller voters.
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_LOG_DIRS: /var/lib/kafka/data  # Where Kafka stores its logs.
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"  # Kafka will automatically create topics if needed.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # Since we’re running one broker, one replica is enough.
+      KAFKA_LOG_RETENTION_HOURS: 168  # Keep logs for 7 days.
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0  # No delay for consumer rebalancing.
+      CLUSTER_ID: "iy9F3LyjRs6fdqZbrHhymw"  # A unique ID for the Kafka cluster.
+      KAFKA_CONFLUENT_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+#    volumes:
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - ./data:/var/lib/kafka/data  # Store Kafka logs on your local machine.
+    command:
+      - "/bin/bash"
+      - "-c"
+      - |
+        # Start Kafka in the background
+        /etc/confluent/docker/run &
+        
+        # Continuously check if Kafka is ready
+        until kafka-topics --bootstrap-server kafka:9092 --list > /dev/null 2>&1; do
+          echo "Waiting for Kafka to be ready..."
+          sleep 2
+        done
+        
+        # Kafka is ready, create the topic
+        echo "Kafka is ready. Creating topic..."
+        kafka-topics --bootstrap-server kafka:9092 --create --topic order-events --partitions 1 --replication-factor 1
+        
+        # Keep the container running (in the background)
+        tail -f /dev/null
+
+networks:
+  kafka-net:
+    driver: bridge

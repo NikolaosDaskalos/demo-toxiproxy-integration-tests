@@ -11,7 +11,7 @@ spring:
       idle-timeout: 60000 # Idle timeout, e.g., 1 minute (in milliseconds)
       maximum-pool-size: ${DB_CONNECTIONS_NUMBER:10}  # Maximum number of connections in the pool
   jpa:
-#    generate-ddl: true
+    #    generate-ddl: true
     database-platform: postgres
     properties:
       hibernate:
@@ -22,7 +22,13 @@ spring:
     open-in-view: false
 #    show-sql: true
 
+scheduled:
+  initial-delay: PT1S
+  fixed-delay: PT10S
+
 kafka:
-  orders:
-    topic:
-      name: ${ORDERS_TOPIC_NAME:orders}
+  bootstrap-servers: ${BOOTSTRAP_SERVERS:http://localhost:9092}
+  schema-registry-url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+  topics:
+    order-events:
+      name: ${ORDER_EVENTS_TOPIC_NAME:order-events}
