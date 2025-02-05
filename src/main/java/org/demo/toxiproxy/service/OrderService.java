@@ -45,17 +45,17 @@ public class OrderService {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotFoundException(orderNotFoundMessage(orderId)));
 
-        if (updateOrderDto.getQuantity() != null && updateOrderDto.getQuantity() != order.getQuantity()) {
+        if (updateOrderDto.getQuantity() != null && !updateOrderDto.getQuantity().equals(order.getQuantity())) {
             order.setQuantity(updateOrderDto.getQuantity());
             order.setPublishedToKafka(null);
         }
 
-        if (updateOrderDto.getItem() != null && updateOrderDto.getItem() != order.getItem()) {
+        if (updateOrderDto.getItem() != null && !updateOrderDto.getItem().equals(order.getItem())) {
             order.setItem(updateOrderDto.getItem());
             order.setPublishedToKafka(null);
         }
 
-        if (updateOrderDto.getUserInfo() != null && updateOrderDto.getUserInfo() != order.getUserInfo()) {
+        if (updateOrderDto.getUserInfo() != null && !updateOrderDto.getUserInfo().equals(order.getUserInfo())) {
             order.setUserInfo(updateOrderDto.getUserInfo());
             order.setPublishedToKafka(null);
         }
@@ -71,8 +71,8 @@ public class OrderService {
         if (!orderRepository.existsById(orderId)) {
             throw new NotFoundException(orderNotFoundMessage(orderId));
         }
-        orderRepository.deleteById(orderId);
 
+        orderRepository.deleteById(orderId);
         return new BasicResponseDto(String.format("Order with id %d deleted successfully", orderId));
     }
 

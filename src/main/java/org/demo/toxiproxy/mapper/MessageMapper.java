@@ -1,9 +1,10 @@
 package org.demo.toxiproxy.mapper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.demo.toxiproxy.message.OrderEventMessage;
-import org.demo.toxiproxy.message.OrderMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.demo.toxiproxy.avro.OrderEventMessage;
 import org.demo.toxiproxy.model.Order;
 import org.springframework.stereotype.Component;
 
@@ -11,24 +12,31 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class MessageMapper {
     private final ObjectMapper objectMapper;
 
     public OrderEventMessage mapToOrderEventMessage(Order order) {
-        return OrderEventMessage.builder()
-                .id(UUID.randomUUID())
-                .order(mapToOrderMessage(order))
+        return OrderEventMessage.newBuilder()
+                .setMessageId(UUID.randomUUID())
+                .setOrderId(order.getId())
+                .setItem(order.getItem())
+                .setQuantity(order.getQuantity())
+                .setUserInfo(order.getUserInfo())
+                .setStatus(order.getStatus())
                 .build();
     }
 
-    public OrderMessage mapToOrderMessage(Order order) {
-        return OrderMessage.builder()
-                .id(order.getId())
-                .item(order.getItem())
-                .quantity(order.getQuantity())
-                .userInfo(order.getUserInfo())
-                .status(order.getStatus())
-                .build();
+    public OrderEventMessage mapToOrderEventMessage(String json) throws JsonProcessingException {
+        try {
+            return objectMapper.readValue(json, OrderEventMessage.class);
+        } catch (JsonProcessingException e) {
+            log.error("deserialization error of {} to OrderEventMessage", json, e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Unknown error happened during {} deserialization ", json, e);
+            throw e;
+        }
     }
 
     public String toJson(OrderEventMessage orderEventMessage) {
@@ -38,5 +46,4 @@ public class MessageMapper {
             throw new RuntimeException("Error while converting OrderEventMessage to JSON", e);
         }
     }
-
 }
